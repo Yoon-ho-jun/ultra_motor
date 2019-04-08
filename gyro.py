@@ -145,3 +145,4 @@ except KeyboardInterrupt:
 #gnuplot
 #plot "6050_1.dat" using 1:2 t "X rotate", "6050_1.dat" using 1:3 t "Y Rotate", "6050_1.dat" using 1:4 t "Z Rotate";
 #graph 
+# line   'with l'
