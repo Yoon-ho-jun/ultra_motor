@@ -29,15 +29,15 @@ def dist(a,b):
 
 def get_y_rotation(x,y,z):
     radians = math.atan2(x,dist(y,z))
-    return -math.degrees(radians)
+    return math.degrees(radians)
 
 def get_x_rotation(x,y,z):
     radians = math.atan2(y,dist(x,z))
-    return -math.degrees(radians)
+    return math.degrees(radians)
 
 def get_z_rotation(x,y,z):
     radians = math.atan2(z,dist(x,y))
-    return -math.degrees(radians)
+    return math.degrees(radians)
 
 def adjust_gyro(val):
     ret=val*1.0
@@ -104,8 +104,14 @@ print("Temp : ",temper)
 f=open('6050_1.dat','w')
 index=0
 
+accel_xout = adjust_accel(read_signed_16_2c(0x3b))
+accel_yout = adjust_accel(read_signed_16_2c(0x3d))
+accel_zout = adjust_accel(read_signed_16_2c(0x3f))
+
+x_rotate = get_x_rotation(accel_xout, accel_yout, accel_zout)
+            
 try:
-    while True:
+   while True:
         gyro_xout = adjust_gyro(read_signed_16_2c(0x43))
         gyro_yout = adjust_gyro(read_signed_16_2c(0x45))
         gyro_zout = adjust_gyro(read_signed_16_2c(0x47))
@@ -118,9 +124,15 @@ try:
         y_rotate = get_y_rotation(accel_xout, accel_yout, accel_zout)
         z_rotate = get_z_rotation(accel_xout, accel_yout, accel_zout)
 
-        print(index,"Accel:",accel_xout,accel_yout,accel_zout,"Rotate:",x_rotate,y_rotate,z_rotate);
+    #print(index,"Accel:",accel_xout,accel_yout,accel_zout,"Rotate:",x_rotate,y_rotate,z_rotate);
 
-        data="{} {} {} {} {} {} {}\n".format(index,accel_xout,accel_yout,accel_zout,x_rotate,y_rotate,z_rotate)
+    #data="{} {} {} {} {} {} {}\n".format(index,accel_xout,accel_yout,accel_zout,x_rotate,y_rotate,z_rotate)
+       
+
+        print(index,"Rotate:",x_rotate,y_rotate,z_rotate);
+    
+        data="{} {} {} {}\n".format(index,x_rotate,y_rotate,z_rotate)
+        
         f.write(data)
         time.sleep(0.05)
         index += 1
@@ -128,3 +140,8 @@ try:
 except KeyboardInterrupt:
     print ("Now Exit")
     f.close()
+
+
+#gnuplot
+#plot "6050_1.dat" using 1:2 t "X rotate", "6050_1.dat" using 1:3 t "Y Rotate", "6050_1.dat" using 1:4 t "Z Rotate";
+#graph 
