@@ -8,17 +8,17 @@ power_mgmt_2=0x6c
 AFS_SEL = -1
 FS_SEL = -1
 
-def read_byte(adr):
+def read_byte(addr,adr):
     return bus.reaed_byte_data(address,adr)
 
-def read_word(adr):
+def read_word(addr,adr):
     high=bus.read_byte_data(address,adr)
     low =bus.read_byte_data(address,adr+1)
     val=(high<<8)+low
     return val
 
-def read_signed_16_2c(adr):
-    val=read_word(adr)
+def read_signed_16_2c(addr,adr):
+    val=read_word(addr,adr)
     if(val>=0x8000):
         return -((65535-val)+1)
     else:
@@ -87,14 +87,20 @@ bus = smbus.SMBus(1)
 address=0x68
 
 bus.write_byte_data(address,power_mgmt_1,0)
+bus.write_byte_data(address+1,power_mgmt_1,0)
 print("gyro data")
 print("---------")
 
-AFS_SEL = read_signed_16_2c(0x1C)
-FS_SEL = read_signed_16_2c(0x1B)
+AFS_SEL = read_signed_16_2c(address,0x1C)
+FS_SEL = read_signed_16_2c(address,0x1B)
+
+
+AFS_SEL = read_signed_16_2c(address+1,0x1C)
+FS_SEL = read_signed_16_2c(address+1,0x1B)
+
 print ("AFS_SEL:",AFS_SEL,"FS_SEL",FS_SEL)
 
-temper = read_signed_16_2c(0x41);
+temper = read_signed_16_2c(address,0x41);
 
 if(temper):
     temper = temper/340.0+36.53;
@@ -104,25 +110,33 @@ print("Temp : ",temper)
 f=open('6050_1.dat','w')
 index=0
 
-accel_xout = adjust_accel(read_signed_16_2c(0x3b))
-accel_yout = adjust_accel(read_signed_16_2c(0x3d))
-accel_zout = adjust_accel(read_signed_16_2c(0x3f))
-
-x = get_x_rotation(accel_xout, accel_yout, accel_zout)
+#x = get_x_rotation(accel_xout, accel_yout, accel_zout)
             
 try:
    while True:
-        gyro_xout = adjust_gyro(read_signed_16_2c(0x43))
-        gyro_yout = adjust_gyro(read_signed_16_2c(0x45))
-        gyro_zout = adjust_gyro(read_signed_16_2c(0x47))
+        gyro_xout = adjust_gyro(read_signed_16_2c(address,0x43))
+        gyro_yout = adjust_gyro(read_signed_16_2c(address,0x45))
+        gyro_zout = adjust_gyro(read_signed_16_2c(address,0x47))
 
-        accel_xout = adjust_accel(read_signed_16_2c(0x3b))
-        accel_yout = adjust_accel(read_signed_16_2c(0x3d))
-        accel_zout = adjust_accel(read_signed_16_2c(0x3f))
+        accel_xout = adjust_accel(read_signed_16_2c(address,0x3b))
+        accel_yout = adjust_accel(read_signed_16_2c(address,0x3d))
+        accel_zout = adjust_accel(read_signed_16_2c(address,0x3f))
 
-        x_rotate = get_x_rotation(accel_xout, accel_yout, accel_zout)-x
+        gyro_xout1 = adjust_gyro(read_signed_16_2c(address+1,0x43))
+        gyro_yout1 = adjust_gyro(read_signed_16_2c(address+1,0x45))
+        gyro_zout1 = adjust_gyro(read_signed_16_2c(address+1,0x47))
+
+        accel_xout1 = adjust_accel(read_signed_16_2c(address+1,0x3b))
+        accel_yout1 = adjust_accel(read_signed_16_2c(address+1,0x3d))
+        accel_zout1 = adjust_accel(read_signed_16_2c(address+1,0x3f))
+
+        x_rotate = get_x_rotation(accel_xout, accel_yout, accel_zout)
         y_rotate = get_y_rotation(accel_xout, accel_yout, accel_zout)
         z_rotate = get_z_rotation(accel_xout, accel_yout, accel_zout)
+
+        x_rotate1 = get_x_rotation(accel_xout1, accel_yout1, accel_zout1)
+        y_rotate1 = get_y_rotation(accel_xout1, accel_yout1, accel_zout1)
+        z_rotate1 = get_z_rotation(accel_xout1, accel_yout1, accel_zout1)
 
     #print(index,"Accel:",accel_xout,accel_yout,accel_zout,"Rotate:",x_rotate,y_rotate,z_rotate);
 
@@ -130,8 +144,9 @@ try:
        
 
         print(index,"Rotate:",x_rotate,y_rotate,z_rotate);
-    
-        data="{} {} {} {}\n".format(index,x_rotate,y_rotate,z_rotate)
+        print(index,"Rotate:",x_rotate1,y_rotate1,z_rotate1);
+        
+        data="{} {} {}\n".format(index,x_rotate,x_rotate1)
         
         f.write(data)
         time.sleep(0.05)
@@ -143,6 +158,7 @@ except KeyboardInterrupt:
 
 
 #gnuplot
-#plot "6050_1.dat" using 1:2 t "X rotate", "6050_1.dat" using 1:3 t "Y Rotate", "6050_1.dat" using 1:4 t "Z Rotate";
+
 #graph 
 # line   'with l'
+#plot "6050_1.dat" using 1:2 t "X rotate" with l, "6050_1.dat" using 1:3 t "X1 Rotate" with l

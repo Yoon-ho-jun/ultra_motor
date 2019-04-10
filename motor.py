@@ -40,23 +40,70 @@ def set_PWM(channel,on,off):
     write_word_2c(LED0_ON_L+4*channel+2,off)
 def set_PWM_Duty(channel,rate):
     on = 0
-    off = rate * 41
+    off = rate * 4095.0/100.0
     set_PWM(channel, on, int(off))
 
-def five(start, end):
-    print("left")
+def a(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,3)
+
+def b(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,3.5)
+
+def c(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,4)
+
+def d(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,4.5)
+
+def e(start, end):
     for x in range(start,end):
         set_PWM_Duty(x,5)
-        
-def seven(start, end):
-    print("middle")
-    for x in range(start,end):
-        set_PWM_Duty(x,7)
 
-def nine(start, end):
-    print("right")
+def f(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,5.5)
+
+def g(start, end):  #left
+        print("x");
+        set_PWM_Duty(0,6)
+
+def h(start, end):  #mid
+        print("y");
+        set_PWM_Duty(0,6.5)
+
+
+def i(start, end):  #right
+        print("z");
+        set_PWM_Duty(0,7)
+
+def j(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,7.5)
+
+
+def k(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,8)
+
+def l(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,8.5)
+
+def m(start, end):
     for x in range(start,end):
         set_PWM_Duty(x,9)
+
+def n(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,9.5)
+
+def o(start, end):
+    for x in range(start,end):
+        set_PWM_Duty(x,10)
 
 
 bus = smbus.SMBus(1)
@@ -72,19 +119,38 @@ except IOError:
 
 try:
     while True:
-
-            seven(0,3)
-            time.sleep(0.7)
-
-        #for x in range(0,10):
-            nine(0,1)
-            seven(1,2)
-            five(2,3)
-            time.sleep(3)
         
-            nine(0,2)
-            nine(2,3)
-            time.sleep(3)
+            a(0,1)
+            time.sleep(1)
+            b(0,1)
+            time.sleep(1)
+            c(0,1)
+            time.sleep(1)
+            d(0,1)
+            time.sleep(1)
+            e(0,1)
+            time.sleep(1)
+            f(0,1)
+            time.sleep(1)
+            g(0,1)
+            time.sleep(1)
+            h(0,1)
+            time.sleep(1)
+            i(0,1)
+            time.sleep(1)
+            j(0,1)
+            time.sleep(1)
+            k(0,1)
+            time.sleep(1)
+            l(0,1)
+            time.sleep(1)
+            m(0,1)
+            time.sleep(1)
+            n(0,1)
+            time.sleep(1)
+            o(0,1)
+            time.sleep(1)
+            
     
 except KeyboardInterrupt:
     print ("Servo driver Application End")
