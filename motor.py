@@ -205,28 +205,24 @@ def move(dir):
                     left(i,i+1)
 
 
-    elif(dir == 5):     # pause code
+    elif(dir == 5):     # move left
 
                 
-        for i in range (0,6):
-            if(i == 0):
-                right(6,7)
+        for i in range (9,0,-1):
 
-            else:
-                if(i%2==0):
-                    left(i,i+1)
-                elif(i%2 ==1):
-                    right(i,i+1)
+            if(i%2==0):
+                right(i,i+1)
+            elif(i%2 ==1):
+                right(i,i+1)
+            right(0,1)
 
-        for i in range (0,6):
-            if(i == 0):
-                left(6,7)
+        for i in range (9,0,-1):
+            if(i%2==0):
+                left(i,i+1)
+            elif(i%2 ==1):
+                left(i,i+1)
 
-            else:
-                if(i%2==0):
-                    right(i,i+1)
-                elif(i%2 ==1):
-                    left(i,i+1)
+            left(0,1)
 
     elif(dir == 6):   #left_turn
 
@@ -303,11 +299,14 @@ except IOError:
 start_x=0
 start_y=0
 i=0
-sw = #first price
+# = #first price
 
 try:
     while True:
+
+        move(5)
         
+        '''
         if(sw== #first price):
            print("auto? : manual?")
            sw = #auto or manual?
@@ -413,7 +412,7 @@ try:
                     #turn left 90 deg
                     start_x=end_x
                     start_y=end_y
-        
+        '''
     
 
 
