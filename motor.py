@@ -60,6 +60,11 @@ def left(start, end):
     for x in range(start,end):
         set_PWM_Duty(x,8.5)
 
+def lef(start, end):
+    print("left 8.5");  '4 motor op'  #motor 1 left
+    for x in range(start,end):
+        set_PWM_Duty(x,5)        
+
 def left_l(start, end):
     print("left 8");  '4 motor op'
     for x in range(start,end):
@@ -113,125 +118,35 @@ def up_right(start, end):
 
 def move(dir):
 
-    if(dir==1):
+    if(dir==1):             #go straight
 
-        mid(0,8)
+        mid(0,9)
+        time.sleep(0.05)
+
+        right_rr(6,7)
         time.sleep(0.05)
         
-        left(0,1)
-        left(2,3)
-        right(4,5)
-        left(6,7)
-        left(1,2)
-        right(3,4)
-        left(5,6)
-        right(7,8)
-        time.sleep(0.05)
-
-        left_l(0,1)
-        left_l(2,3)
-        right_r(4,5)
-        left_l(6,7)
-        right(1,2)
-        left(3,4)
         right(5,6)
-        mid(7,8)
-        time.sleep(0.05)
-
-        left_l(0,1)
-        left_l(2,3)
-        right_r(4,5)
-        left_l(6,7)
-        left(1,2)
-        right(3,4)
-        left(5,6)
-        right(7,8)
-        time.sleep(0.05)
-
-        mid(0,8)
-        time.sleep(0.05)
-
-        right_r(0,1)
-        right_r(2,3)
-        left_l(4,5)
-        right_r(6,7)
-        left(1,2)
-        right(3,4)
-        left(5,6)
-        right(7,8)
-        time.sleep(0.05)
-
-        right_rr(0,1)
-        right_rr(2,3)
-        left_ll(4,5)
-        right_rr(6,7)
-        right(1,2)
         left(3,4)
-        right(5,6)
-        mid(7,8)
-        time.sleep(0.05)
-
-        right(0,1)
-        right(2,3)
-        left(4,5)
-        right(6,7)
-        left(1,2)
-        right(3,4)
-        left(5,6)
-        right(7,8)
-        time.sleep(0.05)
-
-        right_r(0,1)
-        right_r(2,3)
-        left_l(4,5)
-        right_r(6,7)
         right(1,2)
-        left(3,4)
-        right(5,6)
-        mid(7,8)
-        time.sleep(0.05)
-
-        right_rr(0,1)
-        right_rr(2,3)
-        left_ll(4,5)
-        right_rr(6,7)
-        left(1,2)
-        right(3,4)
+        left(7,8)
+        time.sleep(0.5)
+        
         left(5,6)
-        right(7,8)
-        time.sleep(0.05)
-
-        mid(0,8)
-        time.sleep(0.05)
-
-        left_ll(0,1)
-        left_ll(2,3)
-        right_rr(4,5)
-        left_ll(6,7)
-        left(1,2)
         right(3,4)
-        left(5,6)
+        left(1,2)
         right(7,8)
-        time.sleep(0.05)
+        time.sleep(0.5)
+        
 
-        left_l(0,1)
-        left_l(2,3)
-        right_r(4,5)
-        left_l(6,7)
-        right(1,2)
-        left(3,4)
-        right(5,6)
-        mid(7,8)
-        time.sleep(0.05)
-
-    elif(dir==2):           #left_curve turn_right 1
+        
+    elif(dir==2):           #left_curve turn_right  30 deg
 
         mid(0,7)
         time.sleep(0.05)
 
         mid(7,8)
-        left_curve(8,9)
-        time.sleep(0.05)
+        right(8,9)
         left_curve(0,1)
         mid(1,2)
         left_curve(2,3)
@@ -239,24 +154,20 @@ def move(dir):
         left_curve(4,5)
         mid(5,6)
         left_curve(6,7)
+        time.sleep(0.05)
         
-        time.sleep(2)
-
-    elif(dir==3):            #turn_right 2
-
-        right_curve(6,7)   # head
-        mid(4,5)
-        time.sleep(0.05)
-        for i in range (0,6):
+        for i in range (0,9):
             mid(i,i+1)
-        mid(7,9)
-        time.sleep(5)
+            time.sleep(1)
 
-    elif(dir==4):           #right_curve turn_left 1
 
-        mid(0,7)
+    elif(dir==3):           #right_curve turn_left  30deg
+
+        mid(0,9)
         time.sleep(0.05)
 
+        mid(7,8)
+        left(8,9)
         right_curve(0,1)
         mid(1,2)
         right_curve(2,3)
@@ -264,22 +175,84 @@ def move(dir):
         right_curve(4,5)
         mid(5,6)
         right_curve(6,7)
-        mid(7,8)
-        right_curve(8,9)
-        time.sleep(2)
-
-    elif(dir==5):            #left 2
-
-        left_curve(6,7)  #head
-        mid(4,5)
         time.sleep(0.05)
-        for i in range (0,6):
+
+        for i in range (0,9):
             mid(i,i+1)
+            time.sleep(1)
 
-        mid(7,9)
-        time.sleep(5)
+    elif(dir == 4):     #move right
 
-    elif(dir==6):            #up and cam
+                
+        for i in range (0,9):
+            if(i == 0):
+                right(6,7)
+
+            else:
+                if(i%2==0):
+                    left(i,i+1)
+                elif(i%2 ==1):
+                    right(i,i+1)
+
+        for i in range (0,9):
+            if(i == 0):
+                left(6,7)
+
+            else:
+                if(i%2==0):
+                    right(i,i+1)
+                elif(i%2 ==1):
+                    left(i,i+1)
+
+
+    elif(dir == 5):     # pause code
+
+                
+        for i in range (0,6):
+            if(i == 0):
+                right(6,7)
+
+            else:
+                if(i%2==0):
+                    left(i,i+1)
+                elif(i%2 ==1):
+                    right(i,i+1)
+
+        for i in range (0,6):
+            if(i == 0):
+                left(6,7)
+
+            else:
+                if(i%2==0):
+                    right(i,i+1)
+                elif(i%2 ==1):
+                    left(i,i+1)
+
+    elif(dir == 6):   #left_turn
+
+                
+        for i in range (8,-1,-1):
+            if(i == 0):
+                left(6,7)
+
+            else:
+                if(i%2==0):
+                    right(i,i+1)
+                elif(i%2 ==1):
+                    left(i,i+1)
+
+        for i in range (8,-1,-1):
+            if(i == 0):
+                right(6,7)
+
+            else:
+                if(i%2==0):
+                    right(i,i+1)
+                elif(i%2 ==1):
+                    right(i,i+1)                    
+
+
+    elif(dir==7):            #up and cam
         mid(0,9)
         time.sleep(0.5)
         
@@ -302,10 +275,13 @@ def move(dir):
         os.system('raspistill -t 1 -o 6.jpg')
         time.sleep(0.5)
         mid(6,7)
+
+        print("Sending ... ")
         
-        os.system("echo 'image' | ssmtp -s -a '/ultra_motor/4.jpg' -- 'a01043327120@gmail.com'")
+        os.system('echo "search" | mutt -s "search" -a "1.jpg" -- "a01043327120@gmail.com"')
+        print("send mail")
         
-    elif(dir==7):
+    elif(dir==8):
 
         mid(0,9)
         time.sleep(0.05)
@@ -326,11 +302,121 @@ except IOError:
 
 start_x=0
 start_y=0
+i=0
+sw = #first price
 
 try:
     while True:
-        move(6)
-        move(7)
+        
+        if(sw== #first price):
+           print("auto? : manual?")
+           sw = #auto or manual?
+
+        elif(sw == #manual):    #수동조작        
+            if(distance < 30):
+               move(4) #move right
+            else:
+                if(sw == #left):
+                    move(3) #turn left
+
+                elif(sw==#right):
+                    move(2) #turn right
+
+                elif(sw==#go):
+                    move(1) #go
+                    
+                elif(sw==#stop):
+                    move(8)
+                    
+                elif(sw==#light):
+                    GPIO.output()#LED
+
+                elif(sw==#cam):
+                    left(5,6) #head up
+                    os.system('raspistill -t 1 -o still_shot.jpg')
+                    print("cam capture")
+                    print("Sending ...")
+                    os.system('echo "capture" | mutt -s "capture" -a "still_shot.jpg" -- "a01043327120@gmail.com"')
+                    print("Send complete")
+
+                elif(sw==#auto):
+                    sw==auto
+         
+
+        elif(sw == #auto):   #자동조작
+            end_x=input('x 좌표를 입력하시오 :')
+            end_y=input('y 좌표를 입력하시오 :')
+            print("moving ... ","(",start_x," , ","start_y",")"," to ","(",end_x," , ",end_y,")")
+         
+            if(sw == #manual): #수동조작
+               #sw=manual   변수설정 
+               
+            if(start_x==start_y and end_x==end_y):
+
+                stop=0        #초음파센서
+                start=0
+                GPIO.output(GPIO_TRIGGER,False)
+                time.sleep(0.01)
+    
+                GPIO.output(GPIO_TRIGGER,True)
+                time.sleep(0.00001)
+                GPIO.output(GPIO_TRIGGER,False)
+
+                while GPIO.input(GPIO_ECHO)==0:
+                    start = time.time()
+
+                while GPIO.input(GPIO_ECHO)==1:
+                    stop=time.time()
+            
+                elasped = stop-start
+
+                if(stop and start):
+            
+                    distance = (elasped * 34000.0)/2
+                    print("Distance : %.1f cm" % distance)  #초음파센서
+
+                    if(distance < 30):
+                        move(2) # turn right 30 deg
+
+                    else:
+                        move(3) #left 30 deg ->  45deg   x
+                        move(1) #go_straight
+                        move(3) #turn left 30 deg ->  45deg   x
+                        start_x=end_x
+                        start_y=end_y
+        
+            elif(start_x != end_x and start_y = end_y):
+                move(1) #go_straight
+                #turn left 180 deg
+                start_x=end_x
+                start_y=end_y
+                
+
+            elif(start_x != end_x and start_y != end_y):
+                #right 45 deg
+                move(1) #go_straight
+                #turn right 45 deg
+                start_x=end_x
+                start_y=end_y
+
+            elif(start_x == end_x and start_y != end_y):
+                if(start_x == start_y):
+                    #turn left 90 deg
+                    move(1) #go_straight
+                    #turn right 90 deg
+                    start_x=end_x
+                    start_y=end_y
+
+                elif(start_x == start_y):
+                    #turn right 90 deg
+                    move(1) #go_straight
+                    #turn left 90 deg
+                    start_x=end_x
+                    start_y=end_y
+        
+    
+
+
         '''
         end_x=input('x 좌표를 입력하시오 :')
         end_y=input('y 좌표를 입력하시오 :')
@@ -342,7 +428,7 @@ try:
             stop=0
             start=0
             GPIO.output(GPIO_TRIGGER,False)
-            time.sleep(2)
+            time.sleep(0.01)
 
             GPIO.output(GPIO_TRIGGER,True)
             time.sleep(0.00001)
